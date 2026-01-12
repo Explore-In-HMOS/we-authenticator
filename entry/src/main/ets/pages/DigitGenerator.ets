@@ -1,11 +1,11 @@
 import { cryptoFramework } from '@kit.CryptoArchitectureKit';
 
-@Entry
 @Component
-export default struct DigitGenerator {
+export struct DigitGenerator {
   @State randomValue: string = '000000';
   @State digitNumber: number = 0;
   private intervalId: number | undefined = undefined;
+  @Consume('NavPathStack') pageStack: NavPathStack;
 
   async doRand() {
     let rand = cryptoFramework.createRandom();
@@ -36,58 +36,65 @@ export default struct DigitGenerator {
   }
 
   build() {
-    Column() {
-      Text('How many digits for the Authenticator code?')
-        .margin(2)
-
-      TextInput({ text: this.digitNumber.toString(), placeholder: 'your digit number' })
-        .placeholderColor(Color.Gray)
-        .placeholderFont({ size: 14, weight: 500 })
-        .caretColor(Color.Pink)
-        .fontColor(Color.White)
-        .fontSize(14)
-        .margin(2)
-        .onChange((value: string) => {
-          let num = parseInt(value);
-          if (!isNaN(num)) {
-            this.digitNumber = num;
-          }
-        })
-
-      Button('Generate')
-        .width('100')
-        .height('25')
-        .backgroundColor(Color.Pink)
-        .fontSize(14)
-        .fontWeight(FontWeight.Bold)
-        .borderColor(Color.White)
-        .margin(2)
-        .onClick(async () => {
-          await this.doRand();
-        });
-
-      Text('It will be updated in 60 seconds')
-        .margin(2)
-
-      if (this.digitNumber > 12) {
-        Text('Max length is 12!')
+    NavDestination(){
+      Column() {
+        Text('How many digits for the Authenticator code?')
           .margin(2)
-          .fontWeight(FontWeight.Bold)
-          .fontColor(Color.Red)
-      } else {
-        Text(this.randomValue)
+
+        TextInput({ text: this.digitNumber.toString(), placeholder: 'your digit number' })
+          .placeholderColor(Color.Gray)
+          .placeholderFont({ size: 14, weight: 500 })
+          .caretColor(Color.Pink)
+          .fontColor(Color.White)
+          .fontSize(14)
           .margin(2)
+          .onChange((value: string) => {
+            let num = parseInt(value);
+            if (!isNaN(num)) {
+              this.digitNumber = num;
+            }
+          })
+
+        Button('Generate')
+          .width('100')
+          .height('25')
+          .backgroundColor(Color.Pink)
+          .fontSize(14)
           .fontWeight(FontWeight.Bold)
+          .borderColor(Color.White)
+          .margin(2)
+          .onClick(async () => {
+            await this.doRand();
+          });
+
+        Text('It will be updated in 60 seconds')
+          .margin(2)
+
+        if (this.digitNumber > 12) {
+          Text('Max length is 12!')
+            .margin(2)
+            .fontWeight(FontWeight.Bold)
+            .fontColor(Color.Red)
+        } else {
+          Text(this.randomValue)
+            .margin(2)
+            .fontWeight(FontWeight.Bold)
+            .fontColor(Color.White)
+        }
       }
+      .backgroundColor(Color.Black)
+      .height('100%')
+      .alignRules({
+        center: { anchor: '__container__', align: VerticalAlign.Center },
+        middle: { anchor: '__container__', align: HorizontalAlign.Center }
+      })
+      .padding({
+        top: 40,
+        left: 20,
+        right: 20
+      })
     }
-    .alignRules({
-      center: { anchor: '__container__', align: VerticalAlign.Center },
-      middle: { anchor: '__container__', align: HorizontalAlign.Center }
-    })
-    .padding({
-      top: 40,
-      left: 20,
-      right: 20
-    })
+    .hideTitleBar(true)
+    .hideBackButton(true)
   }
 }

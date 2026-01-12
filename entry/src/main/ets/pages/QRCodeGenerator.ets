@@ -1,9 +1,9 @@
 import { cryptoFramework } from '@kit.CryptoArchitectureKit';
 
-@Entry
 @Component
-export default struct QRCodeGenerator {
+export struct QRCodeGenerator {
   @State qrValue: string = '';
+  @Consume('NavPathStack') pageStack: NavPathStack;
 
   async doRand() {
     let rand = cryptoFramework.createRandom();
@@ -19,34 +19,40 @@ export default struct QRCodeGenerator {
   }
 
   build() {
-    RelativeContainer() {
-      Column() {
-        Text('Do you want to generate new QR code?')
-          .margin(2)
+    NavDestination(){
+      RelativeContainer() {
+        Column() {
+          Text('Do you want to generate new QR code?')
+            .margin(2)
 
-        QRCode(this.qrValue)
-          .width('50%')
-          .height('50%')
-          .margin(2)
+          QRCode(this.qrValue)
+            .width('50%')
+            .height('50%')
+            .margin(2)
 
-        Button('Generate')
-          .width('100')
-          .height('25')
-          .backgroundColor(Color.Pink)
-          .fontSize(14)
-          .fontWeight(FontWeight.Bold)
-          .borderColor(Color.White)
-          .margin(2)
-          .onClick(async () => {
-            await this.doRand();
-          });
+          Button('Generate')
+            .width('100')
+            .height('25')
+            .backgroundColor(Color.Pink)
+            .fontSize(14)
+            .fontWeight(FontWeight.Bold)
+            .borderColor(Color.White)
+            .margin(2)
+            .onClick(async () => {
+              await this.doRand();
+            });
+        }
+        .alignRules({
+          center: { anchor: '__container__', align: VerticalAlign.Center },
+          middle: { anchor: '__container__', align: HorizontalAlign.Center }
+        })
+        .padding(30)
       }
-      .alignRules({
-        center: { anchor: '__container__', align: VerticalAlign.Center },
-        middle: { anchor: '__container__', align: HorizontalAlign.Center }
-      })
-      .padding(30)
+      .backgroundColor(Color.Black)
+      .width('100%')
+      .height('100%')
     }
-    .width('100%')
+    .hideTitleBar(true)
+    .hideBackButton(true)
   }
 }

@@ -14,10 +14,13 @@ It consists of three main modules:
 # Preview
 
 <div>
-   <img src="./images/output.gif" width="24%"/>
-   <img src="./images/output1.png" width="24%"/>
-   <img src="./images/output2.png" width="24%"/>
-   <img src="./images/output1.gif" width="24%"/>
+<img src="./screenshots/output.gif" width="24%"/>
+
+<img src="./screenshots/output1.png" width="24%"/>
+
+<img src="./screenshots/output2.png" width="24%"/>
+
+<img src="./screenshots/output1.gif" width="24%"/>
 </div>
 
 # Use Cases
@@ -40,7 +43,7 @@ It consists of three main modules:
 - **Tools**: DevEco Studio Vers 5.1.0.842
 - **Libraries**: @kit.CryptoArchitectureKit, @kit.ArkUI
 
-# Project Directory
+# Directory Structure
    ```
    entry/src/main/ets/
    |---pages
@@ -53,7 +56,7 @@ It consists of three main modules:
 ## Suported Devices
 - Huawei Watch 5
 
-# Limitations
+## Limitations
 - Crypto Architecture Kit is not working on the previewer.
 
 # License

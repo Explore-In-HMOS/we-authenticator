@@ -1,42 +1,83 @@
-import { CoreModule } from 'core';
-import { PinEntryPage } from './PinEntryPage';
-import { CredentialPage } from './CredentialPage';
-import { MainViewModel } from '../viewmodel/MainViewModel';
+import { DigitGenerator } from './DigitGenerator'
+import { QRCodeGenerator } from './QRCodeGenerator'
+import { StrongPassGenerator } from './StrongPassGenerator'
 
 @Entry
 @Component
 struct Index {
-  coreModule: CoreModule = new CoreModule();
-  mainViewModel: MainViewModel = new MainViewModel();
+  @Provide('NavPathStack') pageStack: NavPathStack = new NavPathStack()
 
   @Builder
-  routeMap(name: string) {
-    if (name === 'Credential') {
-      CredentialPage();
-    } else {
-      PinEntryPage();
+  PagesMap(name: string) {
+    if (name === 'StrongPassGenerator') {
+      StrongPassGenerator()
     }
-  }
-
-  aboutToAppear(): void {
-    this.mainViewModel.navigateToPage('PinEntry');
+    else if(name === 'DigitGenerator'){
+      DigitGenerator()
+    }
+    else if(name === 'QRCodeGenerator'){
+      QRCodeGenerator()
+    }
   }
 
   build() {
-    Navigation(this.mainViewModel.navigationService.pageInfos) {
-      // empty
+    Navigation(this.pageStack){
+      RelativeContainer() {
+        Column(){
+          Text('We Authenticator')
+            .margin(2)
+            .fontWeight(FontWeight.Bold)
+            .fontColor(Color.Red)
+          this.button('Strong Pass Generator', this.strongPassGenerator)
+          this.button('Digit Generator', this.numberGenerator)
+          this.button('QR Code Generator', this.qrCodeGenerator)
+          Text(' Smart, safe, and cryptographically strong! ')
+            .margin(2)
+            .fontSize(14)
+            .fontWeight(FontWeight.Bold)
+            .fontStyle(FontStyle.Italic)
+        }
+        .alignRules({
+          center: { anchor: '__container__', align: VerticalAlign.Center },
+          middle: { anchor: '__container__', align: HorizontalAlign.Center }
+        })
+      }
+      .height('100%')
+      .width('100%')
+      .padding({
+        bottom: 10
+      })
     }
-    .linearGradient({
-      direction: GradientDirection.Bottom,
-      colors: [
-        [this.coreModule.commonColors.baseBackgroundGradientStart, 0.0],
-        [this.coreModule.commonColors.baseBackgroundGradientEnd, 1]
-      ]
-    })
-    .navDestination(this.routeMap)
+    .mode(NavigationMode.Stack)
+    .hideTitleBar(true)
+    .navDestination(this.PagesMap)
+    .hideBackButton(true)
     .ignoreLayoutSafeArea()
-    .hideNavBar(true)
-    .width('100%')
-    .height('100%')
+  }
+
+  private strongPassGenerator = () => {
+    this.pageStack.pushPathByName('StrongPassGenerator', null);
+  }
+  private numberGenerator = () => {
+    this.pageStack.pushPathByName('DigitGenerator', null);
+  }
+  private qrCodeGenerator = () => {
+    this.pageStack.pushPathByName('QRCodeGenerator', null);
+  }
+
+  @Builder
+  button(text: string, onClick: () => void) {
+    Button({ type: ButtonType.Normal }) {
+      Text(text)
+        .fontSize(14)
+        .fontWeight(FontWeight.Bold)
+    }
+    .width('70%')
+    .height('15%')
+    .backgroundColor(Color.Pink)
+    .borderRadius(24)
+    .borderColor(Color.White)
+    .onClick(onClick)
+    .margin(2)
   }
 }

@@ -10,11 +10,7 @@
     },
     {
       "name": "EntryAbility_label",
-      "value": "Pin Auth"
-    },
-    {
-      "name": "internet_permission_reason",
-      "value": "internet_permission_reason"
+      "value": "label"
     }
   ]
 }

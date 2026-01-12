@@ -5,8 +5,6 @@
   "main": "",
   "author": "",
   "license": "",
-  "dependencies": {
-    "core": "file:../core",
-  }
+  "dependencies": {}
 }
 
